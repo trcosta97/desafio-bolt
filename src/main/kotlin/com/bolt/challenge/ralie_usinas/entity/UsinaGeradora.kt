@@ -1,3 +1,5 @@
+package com.bolt.challenge.ralie_usinas.entity
+
 import jakarta.persistence.*
 import java.math.BigDecimal
 
@@ -6,6 +8,7 @@ import java.math.BigDecimal
 data class UsinaGeradora(
     @Id
     @Column(name = "id_nucleo_ceg")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val ideNucleoCEG: Int,
 
     @Column(name = "cod_ceg", length = 21)
@@ -28,4 +31,9 @@ data class UsinaGeradora(
 
     @Column(name = "nom_complexo", length = 200)
     val nomComplexo: String? = null
+
+
+
+
+
 )
