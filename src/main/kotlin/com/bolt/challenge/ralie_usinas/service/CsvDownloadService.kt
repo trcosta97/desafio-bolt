@@ -14,7 +14,7 @@ import java.net.URL
 @Service
 class CsvDownloadService(private val usinaGeradoraRepository: UsinaGeradoraRepository) {
 
-    private val csvUrl = "https://dadosabertos.aneel.gov.br/dataset/ralie-relatorio-de-acompanhamento-da-expansao-da-oferta-de-geracao-de-energia-eletrica/resource/a3c58ecb-e936-4dc1-884b-9941f7079a73/download/ralie-usina.csv"
+    private val csvUrl = "https://dadosabertos.aneel.gov.br/dataset/57e4b8b5-a5db-40e6-9901-27ca629d0477/resource/4a615df8-4c25-48fa-bbea-873a36a79518/download/ralie-usina.csv"
     private val csvFileName = "ralie-usina.csv"
     private val logger = LoggerFactory.getLogger(CsvDownloadService::class.java)
 
