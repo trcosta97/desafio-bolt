@@ -1,77 +1,74 @@
-# Power Plant Data Management System - Automated CSV Processing and Visualization
+# Desafio Bolt Energy
 
-This Spring Boot application automatically downloads, processes, and displays data about power generation plants (usinas) in Brazil. It provides a daily updated view of the top 5 power plants based on their licensed power capacity.
+Este aplicativo Spring Boot baixa, processa e exibe automaticamente dados sobre usinas de geração de energia no Brasil. Ele fornece uma visão atualizada diariamente das 5 maiores usinas com base em sua potência outorgada.
 
-The system fetches data from ANEEL (Brazilian Electricity Regulatory Agency) through their open data portal, processes the CSV file, stores it in a PostgreSQL database, and presents the information through both REST API endpoints and a web interface. The application features scheduled data updates, robust error handling, and a clean presentation layer.
+O sistema obtém os dados da ANEEL (Agência Nacional de Energia Elétrica) por meio do portal de dados abertos, processa o arquivo CSV, armazena as informações em um banco de dados PostgreSQL e as apresenta tanto por meio de endpoints REST quanto por uma interface web. A aplicação conta com atualizações agendadas dos dados, tratamento robusto de erros e uma camada de apresentação limpa.
 
-## Repository Structure
+## Estrutura do Repositório
 ```
 .
-├── docker-compose.yml          # Docker configuration for PostgreSQL database
-├── mvnw/mvnw.cmd              # Maven wrapper scripts for build automation
-├── pom.xml                    # Maven project configuration and dependencies
+├── docker-compose.yml         # Config docker para banco de dados Postgress
+├── mvnw/mvnw.cmd              # Script maven
+├── pom.xml                    # Dependências e configs maven
 └── src/
     ├── main/
-    │   ├── kotlin/           # Application source code
+        │   ├── kotlin/           # Código fonte da aplicação
     │   │   └── com/bolt/challenge/ralie_usinas/
-    │   │       ├── controller/     # REST and web controllers
-    │   │       ├── entity/         # Data model classes
-    │   │       ├── repository/     # Database access layer
-    │   │       └── service/        # Business logic and CSV processing
+    │   │       ├── controller/     # Controllers REST e Web
+    │   │       ├── entity/         # Modelos de classes
+    │   │       ├── repository/     # Camada de acesso ao banco de dados
+    │   │       └── service/        # Lógica de negocio e acesso/download ao CSV
     │   └── resources/
-    │       ├── application.properties  # Application configuration
-    │       └── templates/             # Thymeleaf HTML templates
-    └── test/                  # Test classes
+    │       ├── application.properties  # Configurações da aplicação
+    │       └── templates/             # Templates HTML Thymeleaf
+    └── test/                  # Classes de teste
 ```
 
-## Usage Instructions
-### Prerequisites
-- Java Development Kit (JDK) 17 or later
-- Docker and Docker Compose for running PostgreSQL
-- Maven 3.9.x (provided via wrapper)
-- PostgreSQL 15 (provided via Docker)
+## Intruções de Uso
+### Pré-requisitos
 
-### Installation
+- Kit de Desenvolvimento Java (JDK) 17 ou superior
+- Docker e Docker Compose para executar o PostgreSQL
+- Maven 3.9.x (fornecido via wrapper)
+- PostgreSQL 15 (fornecido via Docker)
 
-1. Clone the repository:
+### Intalação
+
+1. Clone o repositorio:
 ```bash
 git clone [repository-url]
 cd ralie-usinas
 ```
 
-2. Start the PostgreSQL database:
+2. Inicie o banco PostgreSQL:
 ```bash
 docker-compose up -d
 ```
 
-3. Build and run the application:
+3. Build e run a aplicação:
 ```bash
-# For Unix-like systems:
-./mvnw spring-boot:run
-
-# For Windows:
 mvnw.cmd spring-boot:run
 ```
 
-### Quick Start
-1. Access the web interface:
+### Início rápido
+1. Acesse a interfaceweb:
 ```
 http://localhost:8080/usinas/view
 ```
 
-2. Access the REST API:
+2. Acesse a REST API:
 ```bash
 curl http://localhost:8080/usinas/top5
 ```
 
-### More Detailed Examples
+### Mais detalhes
 
-1. Get top 5 power plants by capacity:
+1. Consiga as top 5 usinas por capacidade:
 ```bash
 curl -X GET http://localhost:8080/usinas/top5 -H "Accept: application/json"
 ```
 
-Example response:
+Exemplo de resposta:
 ```json
 [
   {
@@ -85,9 +82,9 @@ Example response:
 
 ### Troubleshooting
 
-1. Database Connection Issues
-- Error: "Unable to connect to PostgreSQL"
-- Solution: 
+1. Problemas de conexão com banco de dados
+- Erro: "Unable to connect to PostgreSQL"
+- Solução: 
 ```bash
 # Check if PostgreSQL container is running
 docker ps
@@ -95,9 +92,9 @@ docker ps
 docker-compose up -d
 ```
 
-2. CSV Download Issues
-- Error: "Failed to download CSV file"
-- Solution:
+2. Problemas com  download do CSV
+- Erro: "Failed to download CSV file"
+- Solução:
 ```bash
 # Check logs for detailed error
 docker logs ralie-usinas
@@ -106,34 +103,34 @@ curl -v https://dadosabertos.aneel.gov.br/dataset/57e4b8b5-a5db-40e6-9901-27ca62
 ```
 
 ## Data Flow
-The application automatically downloads power plant data from ANEEL's open data portal, processes it, and stores it in a PostgreSQL database for efficient querying and display.
+A aplicação baixa automaticamente os dados das usinas do portal de dados abertos da ANEEL, processa essas informações e as armazena em um banco de dados PostgreSQL para consulta e exibição eficientes.
 
 ```ascii
 [ANEEL CSV] --> [CsvDownloadService] --> [PostgreSQL DB] --> [REST API/Web UI]
                       |                         |                    |
                       v                         v                    v
-              [Data Processing]        [Data Persistence]    [Data Presentation]
+              [Processamento de dados]        [Persistencia de dados]    [Apresentação de dados]
 ```
 
 Key component interactions:
-1. CsvDownloadService downloads data daily at midnight
-2. CSV data is parsed and validated before storage
-3. UsinaGeradoraRepository handles database operations
-4. Controllers serve data via REST API and web interface
-5. Thymeleaf templates render the web view
-6. Error handling and logging throughout the pipeline
+1. CsvDownloadService baixa os dados diariamente 
+2. Dados do CSV é convertida e validada antes de salvar no banco
+3. O repositório UsinaGeradoraRepository gerencia as operações com o banco de dados
+4. Os controladores fornecem os dados por meio de API REST e interface web
+5. Templates Thymeleaf renderizam a visualização web
+6. Tratamento de erros e registro de logs em todo o pipeline
 
-## Infrastructure
+## Infra
 
 ![Infrastructure diagram](./docs/infra.svg)
 
-### Database (PostgreSQL)
-- Type: PostgreSQL 15
-- Container Name: bolt_postgres
-- Credentials:
-  - Database: ralie
-  - User: bolt_user
-  - Password: bolt_pass
-- Port: 5432
+### Banco de dados (PostgreSQL)
+- Tipo: PostgreSQL 15
+- Nome doContainer: bolt_postgres
+- Credenciais:
+  - Banco: ralie
+  - Usuário: bolt_user
+  - Senha: bolt_pass
+- Porta: 5432
 - Volume: postgres_data for persistence
-- Network: bolt_network (bridge)
+- Rede: bolt_network (bridge)
