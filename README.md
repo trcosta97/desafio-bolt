@@ -86,9 +86,9 @@ Exemplo de resposta:
 - Erro: "Unable to connect to PostgreSQL"
 - Solução: 
 ```bash
-# Check if PostgreSQL container is running
+# Checa se  o container PostgreSQL está rodando
 docker ps
-# If not running, start it
+# Se não, começa:
 docker-compose up -d
 ```
 
@@ -96,9 +96,9 @@ docker-compose up -d
 - Erro: "Failed to download CSV file"
 - Solução:
 ```bash
-# Check logs for detailed error
+# Checa logs por possíveis erros
 docker logs ralie-usinas
-# Verify network connectivity to ANEEL's server
+# Verifica conexão com a ANEEL
 curl -v https://dadosabertos.aneel.gov.br/dataset/57e4b8b5-a5db-40e6-9901-27ca629d0477/resource/4a615df8-4c25-48fa-bbea-873a36a79518/download/ralie-usina.csv
 ```
 
