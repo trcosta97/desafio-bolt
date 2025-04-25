@@ -9,14 +9,13 @@ import org.springframework.stereotype.Service
 @Service
 class UsinaGeradoraService(private val usinaGeradoraRepository: UsinaGeradoraRepository) {
 
-    /**
-     * Método para obter as 5 usinas geradoras com maior potência outorgada.
-     * @return Lista das 5 usinas geradoras com maior potência outorgada.
-     */
+
     @Transactional
     fun getTop5Usinas(): List<UsinaGeradora> {
         return usinaGeradoraRepository.findAll()
             .sortedByDescending { it.mdaPotenciaOutorgadaKw }
             .take(5)
     }
+
+
 }

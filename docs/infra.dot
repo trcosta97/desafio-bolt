@@ -1,0 +1,11 @@
+digraph INFRA {
+  node [ color = "black", fillcolor = "#E6E6E6", height =1, style = "filled,bold,rounded", fontname = "Arial" ];
+  "bolt_postgres" [ label = "bolt_postgres
+(Docker::Container)", shape =cylinder, fillcolor = "#FFCFB3" ];
+  "postgres_data" [ label = "postgres_data
+(Docker::Volume)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "bolt_network" [ label = "bolt_network
+(Docker::Network)", shape =rectangle ];
+  "bolt_postgres" -> "postgres_data";
+  "bolt_postgres" -> "bolt_network";
+}
